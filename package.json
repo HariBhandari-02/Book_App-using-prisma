@@ -17,7 +17,11 @@
   },
   "homepage": "https://github.com/hari2058/Book_App-using-prisma#readme",
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^24.10.1",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }

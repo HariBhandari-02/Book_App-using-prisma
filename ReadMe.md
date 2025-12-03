@@ -48,3 +48,14 @@ If you're writing TypeScript in a Node environment, you need these types so the 
 ## @types/node 
 - this packages contain typescript type declaration for node.js core modules like fs, path, http etc.
 
+```bash 
+## installing express js 
+
+npm install express
+
+## installing types for express
+npm install -D @types/express
+
+```
+
+

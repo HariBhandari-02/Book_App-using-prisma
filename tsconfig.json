@@ -7,12 +7,13 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    // "module": "nodenext",
-    // "target": "esnext",
+    "module": "nodenext",
+    "target": "esnext",
     // "types": [],
     // For nodejs:
     "lib": ["esnext"],
     "types": ["node"],
+    "esModuleInterop": true,
     // and npm install -D @types/node
 
     // Other Outputs
@@ -35,7 +36,7 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
