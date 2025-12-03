@@ -13,7 +13,6 @@
     // For nodejs:
     "lib": ["esnext"],
     "types": ["node"],
-    "esModuleInterop": true,
     // and npm install -D @types/node
 
     // Other Outputs
@@ -38,7 +37,7 @@
     "jsx": "react-jsx",
     "verbatimModuleSyntax": false,
     "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
+    // "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
   }

@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum BooksStatus {
+  COMPLETED
+  IN_PROGRESS
+  DROPPED
+}
+
+//CREATE table Books
+model books {
+  id           Int         @id @default(autoincrement())
+  title        String
+  description  String?     @db.Text
+  status       BooksStatus @default(IN_PROGRESS)
+  completed_at DateTime?
+  updated_at   DateTime    @updatedAt
+  language     String
+}

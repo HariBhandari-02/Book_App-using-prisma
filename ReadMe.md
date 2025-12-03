@@ -56,6 +56,58 @@ npm install express
 ## installing types for express
 npm install -D @types/express
 
+
+## installing prisma using command
+npm install prisma
+
+## installing prisma client
+npm install @prisma/client
+
+## initializing prisma 
+npx prisma init 
+
+ -this create prisma folder and prisma.config.ts file 
+
+ ## installing dotenv which helps to read .env file 
+
+
 ```
+
+## Steps to follow after installing prisma
+1. Defining our database path to sql in .env file after removing default path (eg: DATABASE_URL="mysql://root:Password@123@localhost:3306/book_app_prisma", here DATABASE_URL = "mysql://<username>:<password>@<url>/<db_name>")
+2. Defining datasource to either in prisma.config.ts file or in schema.prisma.(In latest version of prisma datasource is directly defined in prisma.config.ts file so just updating url in .env file is enough.)
+3. Also install dotenv which helps to read .env file. 
+
+
+## To create database using prisma 
+
+``` bash
+## to make database 
+npx prisma db push
+
+## to generate all prisma database 
+
+npx prisma generate
+
+## install adapter
+
+npm install @prisma/adapter-mariadb
+
+```
+
+# After installing adapter you have to provide host, user and password in prisma.ts file
+ Eg: import "dotenv/config";
+ import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+ import { PrismaClient } from "../generated/prisma/client";
+
+ const adapter = new PrismaMariaDb({
+ host: "localhost",
+ port: 3306,
+ connectionLimit: 5,
+ user: "root",
+ password: "Password@123"
+ });
+ export const prisma = new PrismaClient({ adapter });
+
 
 
