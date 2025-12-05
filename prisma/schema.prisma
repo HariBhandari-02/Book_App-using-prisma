@@ -19,13 +19,23 @@ enum BooksStatus {
   DROPPED
 }
 
+
 //CREATE table Books
 model books {
   id           Int         @id @default(autoincrement())
   title        String
   description  String?     @db.Text
   status       BooksStatus @default(IN_PROGRESS)
-  completed_at DateTime?
+  completed_at String?
   updated_at   DateTime    @updatedAt
   language     String
+}
+
+model users {
+  id         Int      @id @default(autoincrement())
+  username   String   @unique
+  email      String   @unique
+  password   String   @db.VarChar(15)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }

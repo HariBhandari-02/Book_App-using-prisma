@@ -38,6 +38,9 @@ npx tsc --init
  ## intall types node using 
  npm install -D @types/node
 
+## tsx for 
+ npm install tsx
+
 ```
 ## Why npm install -D @types/node is needed:
 If you're writing TypeScript in a Node environment, you need these types so the TypeScript compiler knows:
@@ -69,6 +72,10 @@ npx prisma init
  -this create prisma folder and prisma.config.ts file 
 
  ## installing dotenv which helps to read .env file 
+ npm install dotenv
+
+ ## check database using command
+ npx prisma studiox
 
 
 ```
@@ -110,4 +117,9 @@ npm install @prisma/adapter-mariadb
  export const prisma = new PrismaClient({ adapter });
 
 
+## Install zod for valadating users inputs
+
+```bash 
+npm install zod
+```
 

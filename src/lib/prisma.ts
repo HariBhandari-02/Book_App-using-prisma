@@ -7,6 +7,7 @@ const adapter = new PrismaMariaDb({
   port: 3306,
   connectionLimit: 5,
   user: "root",
-  password: ""
+  password: "Password@123",
+  database: "book_store_prisma"
 });
 export const prisma = new PrismaClient({ adapter });
