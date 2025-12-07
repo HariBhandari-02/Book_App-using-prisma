@@ -8,7 +8,6 @@ import { logInUserController } from "../controllers/users/loginUserControllers";
 
 export async function UserRouter(app: Application) {
   //sign up
-
   app.post("/users/sign-up", signUpUserController);
 
   //login

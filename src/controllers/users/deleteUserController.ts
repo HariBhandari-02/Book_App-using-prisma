@@ -3,7 +3,7 @@ import { deleteUser } from "../../prismaModels/user.models";
 
 export const deleteUserController = async (req: Request, res: Response) => {
   const params = req.params;
-  const userId = Number(params);
+  const userId = Number(params.userId);
 
   const user = await deleteUser(userId);
 

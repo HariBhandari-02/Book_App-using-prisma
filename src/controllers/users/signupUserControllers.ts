@@ -4,9 +4,9 @@ import { signUpUser } from "../../prismaModels/user.models";
 import { Gender } from "../../generated/prisma/enums";
 
 const SignUpUserSchema = z.object({
-  username: z.string().min(5).max(30),
+  username: z.string().min(3).max(30),
   email: z.email(),
-  password: z.string().min(8).max(15),
+  password: z.string().min(5).max(15),
   gender: z.enum(Gender),
 });
 

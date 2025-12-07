@@ -3,7 +3,7 @@ import {  getUsersById } from "../../prismaModels/user.models";
 
 export const getUserByIdController = async (req: Request, res: Response) => {
   const params = req.params;
-  const userId = Number(params);
+  const userId = Number(params.userId);
 
   const user = await getUsersById(userId);
 
