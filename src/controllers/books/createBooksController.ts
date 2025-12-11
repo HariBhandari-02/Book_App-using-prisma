@@ -11,7 +11,7 @@ export type BooksCreateInput = {
   updated_at?: Date | string;
   language: string;
   author_id: number;
-  genre_id: number;
+  genreId: number;
 };
 
 export async function createBooksControllers(req: Request, res: Response) {

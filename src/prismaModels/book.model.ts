@@ -1,5 +1,5 @@
 import { BooksCreateInput } from "../controllers/books/createBooksController";
-import { Prisma } from "../generated/prisma/client";
+import { UpdateBooksInput } from "../controllers/books/updateBooksControllers";
 import { prisma } from "../lib/prisma";
 
 export async function createBooks(data: BooksCreateInput) {
@@ -14,7 +14,7 @@ export async function createBooks(data: BooksCreateInput) {
         ? new Date(data.published_date)
         : null,
       author_id: data.author_id,
-      genre_id: data.genre_id,
+      genreId: data.genreId,
     },
   });
   return createdBooks;
@@ -54,10 +54,7 @@ export async function getBooksById(id: number) {
   return books;
 }
 
-export async function updateBooksById(
-  id: number,
-  data: Prisma.booksUpdateInput
-) {
+export async function updateBooksById(id: number, data: UpdateBooksInput) {
   const updatedBook = await prisma.books.update({
     where: {
       id,

@@ -1,8 +1,14 @@
 import { Request, Response } from "express";
 import { getAllBooks } from "../../prismaModels/book.model";
 
-export const getAllBooksControllers = async (req: Request, res: Response) =>  {
+export type BookQueryInputs = {
+  author_id: number;
+  genre_id: number;
+};
 
+export const getAllBooksControllers = async (req: Request, res: Response) => {
+  const query = req.query ;
+  
 
   const allBooks = await getAllBooks();
 
@@ -10,4 +16,4 @@ export const getAllBooksControllers = async (req: Request, res: Response) =>  {
     message: `All books fetched.`,
     data: allBooks,
   });
-}
+};
