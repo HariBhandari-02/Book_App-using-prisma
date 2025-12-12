@@ -13,14 +13,28 @@ export async function createGenre(data: CreateGenreInputs) {
   return createdGenre;
 }
 
-export async function getAllGenre(whereInput: { genre_title: string }) {
-  let tempWhereInput: Prisma.genreWhereInput = {};
+export async function getAllGenre(
+  whereInput: { genre_title: string },
+  pagination: { page: number; perPage: number }
+) {
+  let tempWhereInput: Prisma.genreWhereInput = {
+    OR: []
+  };
 
   if (whereInput.genre_title) {
     tempWhereInput.genre_title = whereInput.genre_title;
   }
+
+  const totalGenre = await prisma.genre.count({
+    // where: tempWhereInput,
+    ...(tempWhereInput.OR?.length ? { where: tempWhereInput } : null),
+  });
+
   const allGenre = await prisma.genre.findMany({
-    where: tempWhereInput,
+    // where: tempWhereInput,
+    ...(tempWhereInput.OR?.length ? { where: tempWhereInput } : null),
+    take: pagination.perPage,
+    skip: (pagination.page - 1) * pagination.perPage,
     include: {
       books: {
         select: {
@@ -36,7 +50,7 @@ export async function getAllGenre(whereInput: { genre_title: string }) {
     },
   });
 
-  return allGenre;
+  return { allGenre, totalGenre };
 }
 
 export async function getGenreById(id: number) {

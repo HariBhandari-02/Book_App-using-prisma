@@ -22,33 +22,51 @@ export async function createBooks(data: BooksCreateInput) {
   return createdBooks;
 }
 
-export async function getAllBooks(whereInput: {
-  status?: BookStatus;
-  author_id?: number;
-  genreId?: number;
-}) {
+// type getAllBooksWhereInput = {
+//   status?: BookStatus;
+//   author_id?: number;
+//   genreId?: number;
+// };
+// type getAllBooksPaginationInput = {
+//   page: number;
+//   perPage: number;
+// };
+export async function getAllBooks(
+  whereInput: {
+    status?: BookStatus;
+    author_id?: number;
+    genreId?: number;
+  },
+  pagination: {
+    page: number;
+    perPage: number;
+  }
+) {
   let tempWhereInput: Prisma.booksWhereInput = {
-    OR:[
-     
-
-    ]
+    OR: [],
   };
 
   if (whereInput.status) {
-    tempWhereInput.OR?.push({status: whereInput.status})
+    tempWhereInput.OR?.push({ status: whereInput.status });
   }
   if (whereInput.author_id) {
-     tempWhereInput.OR?.push({ author_id: whereInput.author_id });
+    tempWhereInput.OR?.push({ author_id: whereInput.author_id });
   }
 
   if (whereInput.genreId) {
     tempWhereInput.OR?.push({ genreId: whereInput.genreId });
   }
 
- 
+  const totalBooks = await prisma.books.count({
+    // where: tempWhereInput,
+    ...(tempWhereInput.OR?.length ? { where: tempWhereInput } : null),
+  });
 
   const allBooks = await prisma.books.findMany({
-    where: tempWhereInput,
+    // where: tempWhereInput,
+    ...(tempWhereInput.OR?.length ? { where: tempWhereInput } : null),
+    take: pagination.perPage,
+    skip: (pagination.page - 1) * pagination.perPage,
     include: {
       author: {
         select: {
@@ -67,7 +85,7 @@ export async function getAllBooks(whereInput: {
     },
   });
 
-  return allBooks;
+  return { allBooks, totalBooks };
 }
 
 export async function getBooksById(id: number) {

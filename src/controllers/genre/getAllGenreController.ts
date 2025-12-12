@@ -4,12 +4,24 @@ import { Request, Response } from "express";
 export const getAllGenreController = async (req: Request, res: Response) => {
   const genre_title = req.query.genre_title as string;
 
-  const allGenre = await getAllGenre({
-    genre_title: genre_title,
-  });
+  const pageNum = Number(req.query.page || 1);
+  const perPage = 5;
+
+  const allGenreRes = await getAllGenre(
+    {
+      genre_title: genre_title,
+    },
+    {
+      page: pageNum,
+      perPage: perPage,
+    }
+  );
 
   res.json({
     message: `All genre fetched`,
-    data: allGenre,
+    data: allGenreRes.allGenre,
+    page: pageNum,
+    perPage: perPage,
+    totalGenre: allGenreRes.totalGenre,
   });
 };

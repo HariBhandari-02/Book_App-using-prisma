@@ -98,5 +98,3 @@ export async function deleteUser(id: number) {
 
   return deletedUser;
 }
-
-

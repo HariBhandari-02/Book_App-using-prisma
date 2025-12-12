@@ -13,26 +13,37 @@ export async function createAuthors(data: Prisma.authorsCreateInput) {
   return createdAuthors;
 }
 
-export async function getAllAuthors(whereInput: {
-  author_name?: string;
-  birth_Date?: string;
-}) {
+export async function getAllAuthors(
+  whereInput: {
+    author_name?: string;
+    birth_Date?: string;
+  },
+  pagination: {
+    page: number;
+    perPage: number;
+  }
+) {
   let tempWhereInput: Prisma.authorsWhereInput = {
-    OR:[
-
-    ]
+    OR: [],
   };
 
   if (whereInput.author_name) {
-    tempWhereInput.OR?.push({author_name: whereInput.author_name})
+    tempWhereInput.OR?.push({ author_name: whereInput.author_name });
   }
 
   if (whereInput.birth_Date) {
-     tempWhereInput.OR?.push({birth_date: whereInput.birth_Date});
+    tempWhereInput.OR?.push({ birth_date: whereInput.birth_Date });
   }
 
+  const totalAuthors = await prisma.authors.count({
+    ...(tempWhereInput.OR?.length ? { where: tempWhereInput } : null),
+  });
+
   const authorsData = await prisma.authors.findMany({
-    where: tempWhereInput,
+    // where: tempWhereInput,
+    ...(tempWhereInput.OR?.length ? { where: tempWhereInput } : null),
+    take: pagination.perPage,
+    skip: (pagination.page - 1) * pagination.perPage,
     include: {
       books: {
         select: {
@@ -43,7 +54,7 @@ export async function getAllAuthors(whereInput: {
     },
   });
 
-  return authorsData;
+  return {authorsData, totalAuthors};
 }
 
 export async function getAuthorById(id: number) {

@@ -9,14 +9,29 @@ export const getAllBooksControllers = async (req: Request, res: Response) => {
   const author_id = parseInt(query.author_id as string);
   const genreId = parseInt(query.genreId as string);
 
-  const allBooks = await getAllBooks({
-    status: status,
-    author_id: author_id,
-    genreId: genreId
-  });
+  const pageNum = Number(query.page || "1");
+  const perPage = 5;
+
+  const allBooksRes = await getAllBooks(
+    {
+      status: status,
+      author_id: author_id,
+      genreId: genreId,
+    },
+    {
+      page: pageNum,
+      perPage: perPage,
+    }
+  );
+
 
   res.json({
     message: `Books fetching success.`,
-    data: allBooks,
+    data: allBooksRes.allBooks,
+    pagination: {
+      page: pageNum,
+      perPage: perPage,
+      totalBooks: allBooksRes.totalBooks,
+    },
   });
 };
