@@ -1,6 +1,7 @@
 import { TLoginUserSchema } from "../controllers/users/loginUserControllers";
 import { TSignUpUserSchema } from "../controllers/users/signupUserControllers";
 import { TUpdateUserSchema } from "../controllers/users/updateUserController";
+import { comparePassword } from "../lib/hash";
 import { prisma } from "../lib/prisma";
 
 export async function signUpUser(data: TSignUpUserSchema) {
@@ -46,9 +47,13 @@ export async function loginUser(data: TLoginUserSchema) {
   if (!userFound) {
     throw new Error(`User not found, please register.`);
   }
-
-  if (data.password !== userFound.password) {
-    throw new Error(`Invalid username or password!`);
+  //check if password match with hashed password
+  const isPasswordCorrect = await comparePassword(
+    userFound.password,
+    data.password
+  );
+  if (!isPasswordCorrect) {
+    throw new Error(`Username or Password incorrect.`);
   }
   return userFound;
 }
@@ -74,6 +79,18 @@ export async function getUsersById(id: number) {
 
 export async function updateUser(id: number, data: TUpdateUserSchema) {
   const userFound = await getUsersById(id);
+
+  if (userFound.email !== data.email) {
+    const emailsFound = await prisma.users.findMany({
+      where: {
+        email: data.email || "",
+      },
+    });
+    if (emailsFound) {
+      throw new Error(`Email already exist, use different email.`);
+    }
+  }
+
   const updatedUser = await prisma.users.update({
     where: {
       id: userFound.id,

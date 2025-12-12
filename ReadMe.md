@@ -112,7 +112,7 @@ npm install @prisma/adapter-mariadb
  port: 3306,
  connectionLimit: 5,
  user: "root",
- password: "Password@123"
+ password: ""
  });
  export const prisma = new PrismaClient({ adapter });
 
@@ -121,5 +121,12 @@ npm install @prisma/adapter-mariadb
 
 ```bash 
 npm install zod
+
+```
+
+## use bcrypt.js library for hashing password 
+-so install bcrypt.js using 
+```bash
+npm install bcryptjs
 ```
 
