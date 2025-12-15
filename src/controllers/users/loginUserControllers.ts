@@ -36,11 +36,11 @@ export const logInUserController = async (req: Request, res: Response) => {
 
   // loggedInUsers.push(randomString);
   await prisma.userSession.create({
-    data:{
+    data: {
       user_id: user.id,
       session_id: randomString,
-    }
-  })
+    },
+  });
 
   res.cookie("token", randomString, {
     httpOnly: true,

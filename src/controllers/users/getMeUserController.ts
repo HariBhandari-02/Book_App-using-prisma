@@ -14,9 +14,9 @@ export async function getMeUserController(req: Request, res: Response) {
     where: {
       session_id: token,
     },
-    include:{
-      user: true
-    }
+    include: {
+      user: true,
+    },
   });
 
   if (!userFound) {

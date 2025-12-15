@@ -2,21 +2,21 @@ import { Request, Response } from "express";
 import { deleteUser } from "../../prismaModels/user.models";
 
 export const deleteUserController = async (req: Request, res: Response) => {
- const params = req.params;
- const paramsUserId = Number(params.userId);
+  const params = req.params;
+  const paramsUserId = Number(params.userId);
 
- const userId = req.user.id;
- if (!userId) {
-   res.status(401).json({
-     message: `You are not authorized`,
-   });
- }
+  const userId = req.user.id;
+  if (!userId) {
+    res.status(401).json({
+      message: `You are not authorized`,
+    });
+  }
 
- if (paramsUserId !== userId) {
-   res.status(401).json({
-     message: "You can only access your data.",
-   });
- }
+  if (paramsUserId !== userId) {
+    res.status(401).json({
+      message: "You can only access your data.",
+    });
+  }
 
   const user = await deleteUser(userId);
 

@@ -12,10 +12,10 @@ export const getUserByIdController = async (req: Request, res: Response) => {
     });
   }
 
-  if(paramsUserId !== userId) {
+  if (paramsUserId !== userId) {
     res.status(401).json({
-      message: "You can only access your data."
-    })
+      message: "You can only access your data.",
+    });
   }
 
   const user = await getUsersById(userId);

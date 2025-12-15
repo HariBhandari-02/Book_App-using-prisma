@@ -13,21 +13,21 @@ const UpdateUserSchema = z.object({
 export type TUpdateUserSchema = z.infer<typeof UpdateUserSchema>;
 
 export const updateUserController = async (req: Request, res: Response) => {
-   const params = req.params;
-   const paramsUserId = Number(params.userId);
+  const params = req.params;
+  const paramsUserId = Number(params.userId);
 
-   const userId = req.user.id;
-   if (!userId) {
-     res.status(401).json({
-       message: `You are not authorized`,
-     });
-   }
+  const userId = req.user.id;
+  if (!userId) {
+    res.status(401).json({
+      message: `You are not authorized`,
+    });
+  }
 
-   if (paramsUserId !== userId) {
-     res.status(401).json({
-       message: "You can only access your data.",
-     });
-   }
+  if (paramsUserId !== userId) {
+    res.status(401).json({
+      message: "You can only access your data.",
+    });
+  }
 
   const body = req.body;
 
