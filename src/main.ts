@@ -1,9 +1,12 @@
+
+
 import express from "express";
 import { booksRouter } from "./Router/books.router";
 import { authorsRouter } from "./Router/authors.router";
 import { UserRouter } from "./Router/user.router";
 import { genreRouter } from "./Router/genre.router";
 import cookieParser from "cookie-parser";
+import { Gender, Role } from "./generated/prisma/enums";
 
 const app = express();
 

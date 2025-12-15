@@ -8,6 +8,8 @@ import { logInUserController } from "../controllers/users/loginUserControllers";
 import { getMeUserController } from "../controllers/users/getMeUserController";
 import { userLogoutController } from "../controllers/users/userLogoutController";
 import { accessControlCheck } from "../middleware/accessControlCheck";
+import { checkAuth } from "../middleware/checkAuth";
+import { generateAccessControlMiddleware } from "../middleware/generateAccessControlMiddleware";
 
 export async function UserRouter(app: Application) {
   //sign up
@@ -17,20 +19,45 @@ export async function UserRouter(app: Application) {
   app.post("/users/login", logInUserController);
 
   //get all user
-  app.get("/users", accessControlCheck, getAllUserController);
+  app.get(
+    "/users",
+    checkAuth,
+    generateAccessControlMiddleware(["SUPER_ADMIN"]),
+    getAllUserController
+  );
 
   //getme
-  app.get("/users/me", getMeUserController);
+  app.get(
+    "/users/me",
+    checkAuth,
+    generateAccessControlMiddleware(["SUPER_ADMIN", "ADMIN", "USER"]),
+    getMeUserController
+  );
 
   //get user by id
-  app.get("/users/:userId", getUserByIdController);
+  app.get(
+    "/users/:userId",
+    checkAuth,
+    generateAccessControlMiddleware(["SUPER_ADMIN", "ADMIN", "USER"]),
+    getUserByIdController
+  );
 
   //update user by id
-  app.put("/users/:userId", updateUserController);
+  app.put(
+    "/users/:userId",
+    checkAuth,
+    generateAccessControlMiddleware(["SUPER_ADMIN", "ADMIN", "USER"]),
+    updateUserController
+  );
 
   //delete user by id
-  app.delete("/users/:userId", deleteUserController);
+  app.delete(
+    "/users/:userId",
+    checkAuth,
+    generateAccessControlMiddleware(["SUPER_ADMIN", "ADMIN", "USER"]),
+    deleteUserController
+  );
 
   // log out user
-  app.post("/users/logout", userLogoutController);
+  app.post("/users/logout", checkAuth, userLogoutController);
 }
