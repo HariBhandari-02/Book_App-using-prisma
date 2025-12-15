@@ -63,7 +63,7 @@ export async function getAllBooks(
   });
 
   const allBooks = await prisma.books.findMany({
-    // where: tempWhereInput,
+    // where: tempWhereInput || null,
     ...(tempWhereInput.OR?.length ? { where: tempWhereInput } : null),
     take: pagination.perPage,
     skip: (pagination.page - 1) * pagination.perPage,

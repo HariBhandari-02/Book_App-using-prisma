@@ -130,7 +130,7 @@ npm install zod
 npm install bcryptjs
 ```
 
-## install cookie package for session management and authintication
+## install cookie package for session management and authentication
 ```bash 
 npm install cookie-parser
 
@@ -138,5 +138,10 @@ npm install -D @types/cookie-parser
 
 ```
 
+## jsonwebtoken 
+```bash
+npm install -D @types/jsonwebtoken
+
+```
 
 

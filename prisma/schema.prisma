@@ -25,6 +25,12 @@ enum Gender {
   OTHERS
 }
 
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
 //CREATE table Books
 model books {
   id             Int         @id @default(autoincrement())
@@ -37,8 +43,6 @@ model books {
   language       String
   author_id      Int
   author         authors     @relation(fields: [author_id], references: [id])
-  // genre_id       Int
-  // genre          genre      @relation(fields: [genre_id], references: [id])
   genre          genre?      @relation(fields: [genreId], references: [id])
   genreId        Int?
 }
@@ -69,4 +73,13 @@ model users {
   password   String   @db.VarChar(255)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  role       Role     @default(USER)
+  userSessions userSession[]
+}
+
+model userSession {
+  id         Int    @id @default(autoincrement())
+  user_id    Int
+  user       users  @relation(fields: [user_id], references: [id])
+  session_id String
 }

@@ -1,6 +1,7 @@
 import { TLoginUserSchema } from "../controllers/users/loginUserControllers";
 import { TSignUpUserSchema } from "../controllers/users/signupUserControllers";
 import { TUpdateUserSchema } from "../controllers/users/updateUserController";
+import { Role } from "../generated/prisma/enums";
 import { comparePassword } from "../lib/hash";
 import { prisma } from "../lib/prisma";
 
@@ -32,6 +33,7 @@ export async function signUpUser(data: TSignUpUserSchema) {
       email: data.email,
       gender: data.gender,
       password: data.password,
+      role: "USER"
     },
   });
   return createdUser;

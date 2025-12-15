@@ -1,6 +1,6 @@
 
 
-# In books controller question
+# Q>1. In books controller question
 * after pagination in get all books model and controller , it displays data only when query is passed, so if i try to get all books data without any filtering , it provide null in getallbooks 
 eg- {
     "message": "Books fetching success.",

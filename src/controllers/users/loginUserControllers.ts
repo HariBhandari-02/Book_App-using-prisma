@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { loginUser } from "../../prismaModels/user.models";
 import z from "zod";
+import { prisma } from "../../lib/prisma";
 
 const LoginUserSchema = z.object({
   username: z.string().min(3).max(30),
@@ -9,7 +10,12 @@ const LoginUserSchema = z.object({
 
 export type TLoginUserSchema = z.infer<typeof LoginUserSchema>;
 
-export const loggedInUsers: string[] = [];
+// export let loggedInUsers: string[] = [];
+
+// export function removeUser(token: string) {
+//   loggedInUsers = loggedInUsers.filter((userToken) => userToken !== token);
+
+// }
 
 export const logInUserController = async (req: Request, res: Response) => {
   const body = req.body;
@@ -28,7 +34,13 @@ export const logInUserController = async (req: Request, res: Response) => {
   const randomNum = Math.floor(Math.random() * 100000);
   const randomString = randomNum.toString();
 
-  loggedInUsers.push(randomString);
+  // loggedInUsers.push(randomString);
+  await prisma.userSession.create({
+    data:{
+      user_id: user.id,
+      session_id: randomString,
+    }
+  })
 
   res.cookie("token", randomString, {
     httpOnly: true,

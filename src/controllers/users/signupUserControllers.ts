@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import { signUpUser } from "../../prismaModels/user.models";
-import { Gender } from "../../generated/prisma/enums";
+import { Gender, Role } from "../../generated/prisma/enums";
 import { hashPassword } from "../../lib/hash";
 
 const SignUpUserSchema = z.object({
@@ -9,6 +9,7 @@ const SignUpUserSchema = z.object({
   email: z.email(),
   password: z.string().min(5).max(20),
   gender: z.enum(Gender),
+  
 });
 
 export type TSignUpUserSchema = z.infer<typeof SignUpUserSchema>;
