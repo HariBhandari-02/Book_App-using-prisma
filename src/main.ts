@@ -21,12 +21,13 @@ import { genreRouter } from "./Router/genre.router";
 import cookieParser from "cookie-parser";
 import { Role } from "./generated/prisma/enums";
 import rateLimit from "express-rate-limit";
+import { userBasedRateLimit } from "./middleware/rate-limit/user-based-rate-limit";
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(rateLimit());
+
 
 app.get("/", (req, res) => {
   res.json({
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 
 booksRouter(app);
 authorsRouter(app);
+// app.use(userBasedRateLimit);
 UserRouter(app);
 genreRouter(app);
 
