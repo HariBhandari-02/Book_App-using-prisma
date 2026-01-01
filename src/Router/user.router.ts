@@ -10,29 +10,37 @@ import { userLogoutController } from "../controllers/users/userLogoutController"
 import { generateAccessControlMiddleware } from "../middleware/generateAccessControllerMiddleware";
 import { checkAuth, checkRefreshToken } from "../middleware/checkAuth";
 import { refreshTokenController } from "../controllers/users/refreshTokenController";
+import { userBasedRateLimit } from "../middleware/rate-limit/user-based-rate-limit";
 
 export async function UserRouter(app: Application) {
   //sign up
-  app.post("/users/sign-up", signUpUserController);
+  app.post("/users/sign-up", userBasedRateLimit, signUpUserController);
 
   //login
-  app.post("/users/login", logInUserController);
+  app.post("/users/login", userBasedRateLimit, logInUserController);
 
   //getme
   app.get(
     "/users/me",
     checkAuth,
     generateAccessControlMiddleware(["SUPER_ADMIN", "ADMIN", "USER"]),
+    userBasedRateLimit,
     getMeUserController
   );
 
-  app.get("/users/refresh-token", checkRefreshToken, refreshTokenController);
+  app.get(
+    "/users/refresh-token",
+    userBasedRateLimit,
+    checkRefreshToken,
+    refreshTokenController
+  );
 
   //get all user
   app.get(
     "/users",
     checkAuth,
     generateAccessControlMiddleware(["SUPER_ADMIN"]),
+    userBasedRateLimit,
     getAllUserController
   );
 
@@ -41,6 +49,7 @@ export async function UserRouter(app: Application) {
     "/users/:userId",
     checkAuth,
     generateAccessControlMiddleware(["SUPER_ADMIN", "ADMIN", "USER"]),
+    userBasedRateLimit,
     getUserByIdController
   );
 
@@ -49,6 +58,7 @@ export async function UserRouter(app: Application) {
     "/users/:userId",
     checkAuth,
     generateAccessControlMiddleware(["SUPER_ADMIN", "ADMIN", "USER"]),
+    userBasedRateLimit,
     updateUserController
   );
 
@@ -57,9 +67,15 @@ export async function UserRouter(app: Application) {
     "/users/:userId",
     checkAuth,
     generateAccessControlMiddleware(["SUPER_ADMIN", "ADMIN", "USER"]),
+    userBasedRateLimit,
     deleteUserController
   );
 
   // log out user
-  app.post("/users/logout", checkAuth, userLogoutController);
+  app.post(
+    "/users/logout",
+    checkAuth,
+    userBasedRateLimit,
+    userLogoutController
+  );
 }

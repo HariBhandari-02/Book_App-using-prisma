@@ -26,11 +26,7 @@ export async function userLogoutController(req: Request, res: Response) {
   //   1
   // );
 
-  await prisma.users.delete({
-    where: {
-      id: userFound.id,
-    },
-  });
+  
 
   res.clearCookie("token");
 
