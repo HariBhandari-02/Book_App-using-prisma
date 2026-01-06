@@ -6,7 +6,7 @@ import { Role } from "../generated/prisma/enums";
 export function generateAccessControlMiddleware(roles: Role[]) {
   return (req: Request, res: Response, next: NextFunction) => {
     const userRole = req.user.role;
-    console.log("userrole = ", userRole)
+    // console.log("userrole = ", userRole)
 
     if (!userRole) {
       res.status(401).json({

@@ -12,7 +12,7 @@ export const userBasedRateLimit = rateLimit({
 
   keyGenerator: (req) => {
     if (req.user) {
-      return `role:${req.user.role} :user:${String(req.user.id)}`;
+      return `user:${String(req.user.id)}`;
     }
     return `ip:${req.ip}`;
   },
