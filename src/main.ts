@@ -20,14 +20,11 @@ import { UserRouter } from "./Router/user.router";
 import { genreRouter } from "./Router/genre.router";
 import cookieParser from "cookie-parser";
 import { Role } from "./generated/prisma/enums";
-import rateLimit from "express-rate-limit";
-import { userBasedRateLimit } from "./middleware/rate-limit/user-based-rate-limit";
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-
 
 app.get("/", (req, res) => {
   res.json({
